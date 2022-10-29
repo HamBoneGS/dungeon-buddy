@@ -13,13 +13,14 @@ COPY requirements.txt manage.py /app/
 RUN pip install -r requirements.txt
 
 COPY ./dungeonbuddy /app/dungeonbuddy
+COPY ./db-apps /app/db-apps
 
 FROM base as devserver
 COPY pyproject.toml .flake8 /app/
 COPY requirements-dev.txt /app/
 RUN pip install -r requirements-dev.txt
-CMD ["gunicorn", "scoutweb.wsgi", "--reload", "--timeout=0"]
+CMD ["gunicorn", "dungeonbuddy.wsgi", "--reload", "--timeout=0"]
 
 FROM base as production
 # Increase keep-alive because container will be deployed behind load balancer
-CMD ["gunicorn", "scoutweb.wsgi", "--keep-alive 80"]
+CMD ["gunicorn", "dungeonbuddy.wsgi", "--keep-alive 80"]
