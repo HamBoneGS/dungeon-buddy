@@ -1,0 +1,13 @@
+[tool.coverage.run]
+omit = [
+    "*/conftest.py",
+    "dungeonbuddy/migrations/*",
+    "dungeonbuddy/wsgi.py",
+]
+
+[tool.coverage.report]
+fail_under = 80
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "INFO"

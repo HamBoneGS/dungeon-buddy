@@ -1,0 +1,35 @@
+services:
+
+  db:
+    image: 'public.ecr.aws/docker/library/postgres:14.5-bullseye'
+    container_name: dungeonbuddy-db
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=dungeonbuddy
+      - POSTGRES_PASSWORD=postgres
+
+  dungeonbuddy:
+    build:
+      context: .
+      target: devserver
+    image: dungeonbuddy-image
+    container_name: dungeonbuddy-web
+    ports:
+      - 8000:8000
+    volumes:
+      - ./dungeonbuddy:/app/dungeonbuddy
+    environment:
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=password
+      - DJANGO_SUPERUSER_EMAIL=graham.n.schmidt@gmail.com
+      - DEBUG=True
+      - SECRET_KEY=NOTSECRET
+      - DATABASE_URL=psql://postgres:postgres@db:5432/dungeonbuddy
+    tty: true
+    depends_on:
+      - db
+
+networks:
+  default:
+    name: dungeonbuddy-network
