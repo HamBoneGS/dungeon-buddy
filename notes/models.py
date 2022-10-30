@@ -3,5 +3,5 @@ from django.forms import CharField
 
 class Note(models.Model):
     title = models.CharField(max_length=200)
-    date_created = models.DateTimeField()
+    date_created = models.DateTimeField(auto_now=True)
     body = models.TextField(null=True, help_text="Enter your notes here!")
