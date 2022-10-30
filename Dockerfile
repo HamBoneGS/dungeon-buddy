@@ -13,7 +13,7 @@ COPY requirements.txt manage.py /app/
 RUN pip install -r requirements.txt
 
 COPY ./dungeonbuddy /app/dungeonbuddy
-COPY ./db-apps /app/db-apps
+COPY ./notes /app/notes
 
 FROM base as devserver
 COPY pyproject.toml .flake8 /app/
