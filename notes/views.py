@@ -1,10 +1,16 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 from .models import Note
 
-def index(request):
-    return render(request, 'notes/index.html')
+def notes(request, id = None):
+    all_notes = [x for x in Note.objects.order_by('date_created')]
+    context = {
+        'all_notes': all_notes
+    }
+    if id:
+        context['chosen_note'] = Note.objects.filter(pk=id).first()
+    return render(request, 'notes/notes.html', context)
 
 def save_note(request):
     note = Note.objects.create(
@@ -12,4 +18,4 @@ def save_note(request):
         body = request.POST['body']
     )
     note.save()
-    return HttpResponse("Saved!")
+    return HttpResponseRedirect("/notes")

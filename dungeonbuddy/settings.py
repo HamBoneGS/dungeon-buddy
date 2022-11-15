@@ -61,7 +61,7 @@ ROOT_URLCONF = 'dungeonbuddy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['dungeonbuddy/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
