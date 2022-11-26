@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Note
 
 def notes(request, id = None):
-    all_notes = [x for x in Note.objects.order_by('date_created')]
+    all_notes = [x for x in Note.objects.order_by('id')]
     context = {
         'all_notes': all_notes
     }
@@ -19,3 +19,10 @@ def save_note(request):
     )
     note.save()
     return HttpResponseRedirect("/notes")
+
+def update_note(request, id):
+    note_to_update = Note.objects.get(pk=id)
+    note_to_update.title = request.POST['title']
+    note_to_update.body = request.POST['body']
+    note_to_update.save()
+    return HttpResponseRedirect(f"/notes/{id}")

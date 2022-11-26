@@ -2,47 +2,55 @@
 {% block notes-form %}
 <div class="container-fluid">
     <div class="row">
-        <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white h-100 rounded my-2 mx-3" style="width: 280px;">
-            <a href="/"
+        <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white h-100 rounded my-2 mx-3"
+            style="width: 280px;">
+            <a href="{% url 'new_note' %}"
                 class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom bg-light">
                 <svg class="bi me-2" width="30" height="24">
                     <use xlink:href="#bootstrap" />
                 </svg>
                 <span class="fs-5 fw-semibold">All Notes</span>
             </a>
-                {% for note in all_notes %}
-                <div class="d-flex align-items-center justify-content-between list-group list-group-flush border-bottom scrollarea">
-                    <a href="{{ note.id }}" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <strong class="mb-1 col-6">{{ note.title }}</strong>
-                            <small>{{ note.date_created|date:'N j, Y' }}</small>
-                        </div>
-                        <div class="col-10 mb-1 small">{{ note.body|truncatechars:40 }}</div>
-                    </a>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="col-8 my-2 mx-3 bg-light rounded">
-                <form class="" action="{% url 'save_note' %}" method="post">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <div>
-                            <label for="title">Title</label><br>
-                        </div>
-                        <div class="">
-                            <input class="form-control" type="text" id="title" name="title" value="{{ chosen_note.title }}" placeholder="Level 3 Quest Idea"><br>
-                        </div>
-                        <div>
-                            <label for="body">Body</label><br>
-                        </div>
-                        <div>
-                            <textarea class="form-control" rows="20" id="body" name="body" placeholder="Something involving a druid looking for his lost Blinkdog...">{{ chosen_note.body }}</textarea><br>
-                        </div>
-                        <input class="btn btn-primary" type="submit" value="Save">
+            <div class="navbar-nav-scroll">
+            {% for note in all_notes %}
+            <div class="d-flex align-items-center justify-content-between list-group list-group-flush border-bottom">
+                <a href="{{ note.id }}" class="list-group-item list-group-item-action py-3 lh-tight"
+                    aria-current="true">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <strong class="mb-1 col-6">{{ note.title }}</strong>
+                        <small>{{ note.date_created|date:'N j, Y' }}</small>
                     </div>
-                </form>
+                    <div class="col-10 mb-1 small">{{ note.body|truncatechars:40 }}</div>
+                </a>
             </div>
+            {% endfor %}
+        </div>
+        </div>
+        <div class="col-8 my-2 mx-3 bg-light h-75 rounded">
+            <form class=""
+                action="{% if chosen_note %}{% url 'update_note' id=chosen_note.id %}{% else %}{% url 'save_note' %}{% endif %}"
+                method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="my-2">
+                        <label for="title">Title</label><br>
+                    </div>
+                    <div class="">
+                        <input class="form-control" type="text" id="title" name="title" value="{{ chosen_note.title }}"
+                            placeholder="Level 3 Quest Idea"><br>
+                    </div>
+                    <div class="my-2">
+                        <label for="body">Body</label><br>
+                    </div>
+                    <div>
+                        <textarea class="form-control" rows="20" id="body" name="body"
+                            placeholder="Something involving a druid looking for his lost Blinkdog...">{{ chosen_note.body }}</textarea><br>
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Save">
+                </div>
+            </form>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}
