@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block main-content %}
+<div class="container-fluid">
+    <div class="row">
+        {% for character in characters_list %}
+        <div class="card my-3 mx-4" style="width: 25rem;">
+            <a class="stretched-link" href="{% url 'character_full' id=character.id %}"></a>
+            {% load static %}
+                <img src="{% static 'images/blank-pfp.jpeg' %}" class="card-img-top cover" alt="blank profile picture" height="250">
+                <div class="card-body">
+                    <h5 class="card-title">{{ character.name }}</h5>
+                    <p class="card-text">{{ character.biography|truncatechars:150 }}</p>
+                    <i><p>{{ character.character_race }} </br> {{ character.character_class }}</p></i>
+                </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<style>.cover {
+    object-fit: cover;
+    width: 50px;
+    height: 100px;
+  }</style>
+{% endblock %}
